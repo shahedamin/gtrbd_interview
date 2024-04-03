@@ -13,17 +13,9 @@ class Trading_strategy:
         aapl = yf.Ticker(self.company_name)
 
         # get historical market data
-        hist = aapl.history(period="1mo")
+        hist = aapl.history(start="2024-01-04", end=None)
         print(hist)
 
       
 aapl_strategy=Trading_strategy("AAPL")
 aapl_strategy.data_acquisition()
-
-# import yfinance as yf
-
-
-# # get historical market data
-# hist = yf.Ticker("AAPL").history(period="5d")
-# print(hist)
-
