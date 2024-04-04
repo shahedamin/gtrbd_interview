@@ -17,9 +17,25 @@ class Trading_strategy:
         self.hist = self.hist.drop_duplicates() # remove duplicates
         self.hist = self.hist.ffill() # forward fill NaN values
 
+    def moving_average(self):
+        self.hist['MA50'] = self.hist['Close'].rolling(50).mean()
+        self.hist['MA200'] = self.hist['Close'].rolling(200).mean()
+
+    def golden_cross(self):
+        self.hist['Golden Cross'] = self.hist['MA50'] > self.hist['MA200']
+
+
+
+
+
       
-aapl_strategy=Trading_strategy("AAPL","2024-02-01",None)
+aapl_strategy=Trading_strategy("AAPL","2024-01-01",None)
 aapl_strategy. data_acquisition()
 aapl_strategy.clean_data()
 print (aapl_strategy.hist)
+aapl_strategy.moving_average()
+print (aapl_strategy.hist)
+aapl_strategy.golden_cross()
+print (aapl_strategy.hist)
+
 
