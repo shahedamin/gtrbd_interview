@@ -1,4 +1,5 @@
 
+
 import yfinance as yf
 
 class Trading_strategy:
@@ -9,33 +10,18 @@ class Trading_strategy:
 
     #Get data
     def data_acquisition(self):
-        aapl = yf.Ticker(self.company_name)
-        self.hist = aapl.history(start=self.from_date, end= self.to_date) # for see the data till today, use end = None
+        data = yf.Ticker(self.company_name)
+        return data.history(start=self.from_date, end= self.to_date) # for see the data till today, use end = None
 
     # clean data
-    def clean_data(self):
-        self.hist = self.hist.drop_duplicates() # remove duplicates
-        self.hist = self.hist.ffill() # forward fill NaN values
+    def clean_data(self,data):
+        remove_duplicate = data.drop_duplicates() # remove duplicates
+        data = remove_duplicate.hist.ffill() # forward fill NaN values
+        return data
 
-    def moving_average(self):
-        self.hist['MA50'] = self.hist['Close'].rolling(50).mean()
-        self.hist['MA200'] = self.hist['Close'].rolling(200).mean()
-
-    def golden_cross(self):
-        self.hist['Golden Cross'] = self.hist['MA50'] > self.hist['MA200']
-
-
-
-
-
-      
-aapl_strategy=Trading_strategy("AAPL","2024-01-01",None)
-aapl_strategy. data_acquisition()
-aapl_strategy.clean_data()
-print (aapl_strategy.hist)
-aapl_strategy.moving_average()
-print (aapl_strategy.hist)
-aapl_strategy.golden_cross()
-print (aapl_strategy.hist)
-
+    # Calculate the moving average
+    def moving_average(self,data, window1=50, window2=200):
+        ma_of_50 = data['Close'].rolling(window=window1).mean()
+        ma_of_200 = data['Close'].rolling(window=window1).mean()
+        return ma_of_50,ma_of_200
 
